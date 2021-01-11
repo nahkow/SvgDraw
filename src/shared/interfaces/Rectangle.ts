@@ -1,7 +1,8 @@
-import { IShape } from "./shape";
+import { Shapes } from "../enums/shapes";
+import { IShape } from "./Shape";
 
 export interface IRectangle extends IShape {
-  type: "Rectangle";
+  type: Shapes.Rectangle;
   xPosition: number;
   yPosition: number;
   fill: string;

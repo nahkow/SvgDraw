@@ -25,15 +25,13 @@ export const CircleController: React.FunctionComponent<CircleControllerProps> = 
       <Formik initialValues={props.values} onSubmit={() => {}}>
         {(formikProps) => (
           <Form
-            style={{ maxWidth: "400px" }}
+            style={{ maxWidth: "350px" }}
             onBlur={(e) => props.onUpdate(formikProps.values)}
           >
-            <Flex>
-              <Box>
-                <label style={{ paddingRight: "10px" }}>Color:</label>
-                <Field id="fill" name="fill"></Field>
-              </Box>
-            </Flex>
+            <Box style={{ maxWidth: "175px" }}>
+              <label style={{ paddingRight: "10px" }}>Color:</label>
+              <Field id="fill" name="fill"></Field>
+            </Box>
             <Flex>
               <Box>
                 <label style={{ paddingRight: "10px" }}>Left:</label>
@@ -44,16 +42,14 @@ export const CircleController: React.FunctionComponent<CircleControllerProps> = 
                 <Field id="radius" name="radius"></Field>
               </Box>
             </Flex>
-            <Flex>
-              <Box>
-                <label style={{ paddingRight: "10px" }}>Top:</label>
-                <Field id="yPosition" name="yPosition"></Field>
-              </Box>
-            </Flex>
+            <Box style={{ maxWidth: "175px" }}>
+              <label style={{ paddingRight: "10px" }}>Top:</label>
+              <Field id="yPosition" name="yPosition"></Field>
+            </Box>
           </Form>
         )}
       </Formik>
-      <Divider />
+      <Divider style={{ marginTop: "1vh" }} />
     </Box>
   );
 };

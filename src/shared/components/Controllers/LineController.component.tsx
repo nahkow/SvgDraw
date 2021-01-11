@@ -25,7 +25,7 @@ export const LineController: React.FunctionComponent<LineControllerProps> = (
       <Formik initialValues={props.values} onSubmit={() => {}}>
         {(formikProps) => (
           <Form
-            style={{ maxWidth: "440px" }}
+            style={{ maxWidth: "350px" }}
             onBlur={(e) => props.onUpdate(formikProps.values)}
           >
             <Flex>
@@ -61,7 +61,7 @@ export const LineController: React.FunctionComponent<LineControllerProps> = (
           </Form>
         )}
       </Formik>
-      <Divider />
+      <Divider style={{ marginTop: "1vh" }} />
     </Box>
   );
 };

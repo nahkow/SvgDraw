@@ -1,7 +1,8 @@
-import { IShape } from "./shape";
+import { Shapes } from "../enums/shapes";
+import { IShape } from "./Shape";
 
 export interface ILine extends IShape {
-  type: "Line";
+  type: Shapes.Line;
   stroke?: string;
   strokeWidth: number;
   xPositionStart: number;

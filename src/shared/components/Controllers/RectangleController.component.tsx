@@ -25,10 +25,10 @@ export const RectangleController: React.FunctionComponent<RectangleControllerPro
       <Formik initialValues={props.values} onSubmit={() => {}}>
         {(formikProps) => (
           <Form
-            style={{ maxWidth: "400px" }}
+            style={{ maxWidth: "350px" }}
             onBlur={(e) => props.onUpdate(formikProps.values)}
           >
-            <Box>
+            <Box style={{ maxWidth: "175px" }}>
               <label style={{ paddingRight: "10px" }}>Color:</label>
               <Field id="fill" name="fill"></Field>
             </Box>
@@ -55,7 +55,7 @@ export const RectangleController: React.FunctionComponent<RectangleControllerPro
           </Form>
         )}
       </Formik>
-      <Divider />
+      <Divider style={{ marginTop: "1vh" }} />
     </Box>
   );
 };

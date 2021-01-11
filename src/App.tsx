@@ -12,80 +12,66 @@ import {
   CircleController,
 } from "./shared/components/Controllers";
 import { newLine, newCircle, newRectangle } from "./shared/utils";
+import { IShape } from "./shared/interfaces/Shape";
+import { Shapes } from "./shared/enums/shapes";
 
 const App: FC = function App() {
-  const [shapes, setShapes] = useState<Array<IRectangle| ICircle| ILine>>
-  const [rectangles, setRectangles] = useState<IRectangle[]>([]);
-  const [circles, setCircles] = useState<ICircle[]>([]);
-  const [lines, setLines] = useState<ILine[]>([]);
+  const [shapes, setShapes] = useState<Array<IShape>>([]);
+  const [shapesCount, setShapesCount] = useState({
+    rectangle: 0,
+    line: 0,
+    circle: 0,
+  });
+
+  const updateShapesCounter = (prop: "rectangle" | "line" | "circle") => {
+    let obj = shapesCount;
+    obj[prop] = obj[prop] + 1;
+    setShapesCount(obj);
+  };
 
   const addRectangle = () => {
-    const arr = rectangles;
-    arr.push(newRectangle());
-    setRectangles([...arr]);
+    const arr = shapes;
+    arr.push(newRectangle({ id: shapesCount.rectangle }));
+    setShapes([...arr]);
+    updateShapesCounter("rectangle");
   };
 
   const addCircle = () => {
-    const arr = circles;
-    arr.push(newCircle());
-    setCircles([...arr]);
+    const arr = shapes;
+    arr.push(newCircle({ id: shapesCount.circle }));
+    setShapes([...arr]);
+    updateShapesCounter("circle");
   };
 
   const addLine = () => {
-    const arr = lines;
-    arr.push(newLine());
-    setLines([...arr]);
+    const arr = shapes;
+    arr.push(newLine({ id: shapesCount.line }));
+    setShapes([...arr]);
+    updateShapesCounter("line");
   };
 
-  const removeRectangle = (key: number) => {
-    console.log("Called");
-    const arr = rectangles;
+  const removeShape = (key: number) => {
+    const arr = shapes;
     arr.splice(key, 1);
-    setRectangles([...arr]);
+    setShapes([...arr]);
   };
 
-  const removeLine = (key: number) => {
-    const arr = lines;
-    arr.splice(key, 1);
-    setLines([...arr]);
-  };
-
-  const removeCircle = (key: number) => {
-    const arr = circles;
-    arr.splice(key, 1);
-    setCircles([...arr]);
-  };
-
-  const updateRectangle = (key: number, values: IRectangle) => {
-    const arr = rectangles;
+  const updateShape = (key: number, values: IShape) => {
+    const arr = shapes;
     arr[key] = values;
-    setRectangles([...arr]);
-  };
-
-  const updateCircle = (key: number, values: ICircle) => {
-    const arr = circles;
-    arr[key] = values;
-    setCircles([...arr]);
-  };
-
-  const updateLine = (key: number, values: ILine) => {
-    const arr = lines;
-    arr[key] = values;
-    setLines([...arr]);
+    setShapes([...arr]);
   };
 
   return (
     <Container>
       <SvgCanvas>
-        {rectangles?.map((props) => (
-          <Rectangle {...props} />
-        ))}
-        {lines?.map((props) => (
-          <Line {...props} />
-        ))}
-        {circles?.map((props) => (
-          <Circle {...props} />
-        ))}
+        {shapes?.map((props) => {
+          if (props.type === Shapes.Rectangle)
+            return <Rectangle {...(props as IRectangle)} />;
+          if (props.type === Shapes.Circle)
+            return <Circle {...(props as ICircle)} />;
+          if (props.type === Shapes.Line) return <Line {...(props as ILine)} />;
+        })}
       </SvgCanvas>
       <Flex>
         <Button color="primary" onClick={() => addCircle()} variant="contained">
@@ -103,35 +89,34 @@ const App: FC = function App() {
         </Button>
       </Flex>
       <Box>
-        {rectangles?.map((rectangle, index) => {
-          return (
-            <RectangleController
-              id={index}
-              onUpdate={(values) => updateRectangle(index, values)}
-              onDelete={() => removeRectangle(index)}
-              values={rectangle}
-            />
-          );
-        })}
-        {circles?.map((circle, index) => {
-          return (
-            <CircleController
-              id={index}
-              onUpdate={(values) => updateCircle(index, values)}
-              onDelete={() => removeCircle(index)}
-              values={circle}
-            />
-          );
-        })}
-        {lines?.map((line, index) => {
-          return (
-            <LineController
-              id={index}
-              onUpdate={(values) => updateLine(index, values)}
-              onDelete={() => removeLine(index)}
-              values={line}
-            />
-          );
+        {shapes?.map((props, index) => {
+          if (props.type === Shapes.Rectangle)
+            return (
+              <RectangleController
+                id={props.id}
+                onUpdate={(values) => updateShape(index, values)}
+                onDelete={() => removeShape(index)}
+                values={props as IRectangle}
+              />
+            );
+          if (props.type === Shapes.Circle)
+            return (
+              <CircleController
+                id={props.id}
+                onUpdate={(values) => updateShape(index, values)}
+                onDelete={() => removeShape(index)}
+                values={props as ICircle}
+              />
+            );
+          if (props.type === Shapes.Line)
+            return (
+              <LineController
+                id={props.id}
+                onUpdate={(values) => updateShape(index, values)}
+                onDelete={() => removeShape(index)}
+                values={props as ILine}
+              />
+            );
         })}
       </Box>
     </Container>
